@@ -1,19 +1,22 @@
 import React from 'react';
-import { Slider, InputNumber, Row, Col } from 'antd';
+import {
+    Row, Col, Slider, InputNumber
+} from 'antd';
 
 export class CountSlider extends React.Component {
     state = {
-        inputValue: 2,
+        inputValue: this.props.value
     }
 
     onChange = (value) => {
-        console.log(value)
-        this.setState({
-            inputValue: value,
-        });
-        this.props.onMinCountChange(value);
-    }
+        let cleanValue = Number.parseInt(value, 10);
+        cleanValue = isNaN(cleanValue) ? this.state.inputValue: cleanValue;
 
+        this.setState({
+            inputValue: cleanValue
+        });
+        this.props.onMinCountChange(cleanValue);
+    }
 
     render() {
         const { inputValue } = this.state;
@@ -21,7 +24,7 @@ export class CountSlider extends React.Component {
             <Row>
                 <Col span={12}>
                     <Slider
-                        min={1}
+                        min={2}
                         max={20}
                         onChange={this.onChange}
                         value={typeof inputValue === 'number' ? inputValue : 0}
@@ -29,7 +32,7 @@ export class CountSlider extends React.Component {
                 </Col>
                 <Col span={4}>
                     <InputNumber
-                        min={1}
+                        min={2}
                         max={20}
                         style={{ marginLeft: 16 }}
                         value={inputValue}
